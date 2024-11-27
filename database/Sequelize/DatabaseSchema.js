@@ -2,7 +2,7 @@ const normalizeModel = require('./utilities/normalizeModel');
 const DataTypes = require('./DataTypes');
 
 // Default model parameters, in case a parameter is missing or ommited.
-const DEFAULT_MODEL_PARAMS = {}; // NOTE: potentially to be changed in the future.
+const DEFAULT_MODEL_PARAMS = Object.freeze({}); // NOTE: potentially to be changed in the future.
 
 // Class to hold the set off table models in a database.
 class DatabaseSchema {
