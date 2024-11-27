@@ -18,7 +18,7 @@ const _msg = (where, text) => formatLogMsg(where, text, '📀 SQL:', 'white'),
   _log = (...args) => console.log(_msg('', args.join(' ')));
 
 // Default config.
-const DEFAULT_CONFIG = {
+const DEFAULT_CONFIG = Object.freeze({
 	connectionString: '',
 	models: {},
 	pool: {
@@ -39,7 +39,7 @@ const DEFAULT_CONFIG = {
 		collate: 'utf8mb4_general_ci' // character encoding
 	},
   heartbeatPingFrequency: 120000 // in ms - ping/pong sent to keep the MariaDB connection alive.
-}
+});
 
 // Extended sequelize class.
 class Sequelize extends _Sequelize {
