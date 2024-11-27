@@ -3,7 +3,7 @@ const DataTypes = require('./DataTypes');
 const Op = require('./Op');
 const DatabaseSchema = require('./DatabaseSchema');
 const Url = require('./Url');
-const { formatLogMsg, errMsg } = require('./utilities/formatLogMsg');
+const { formatLogMsg, errMsg, successMsg } = require('./utilities/formatLogMsg');
 const normalizeName = require('./utilities/normalizeName');
 const {
   fixAttributes,
@@ -282,6 +282,29 @@ class Sequelize extends _Sequelize {
 			set FOREIGN_KEY_CHECKS = 1;`
 		)));
   }
+
+	// Helper function to migrate a database.
+	async migrate(config) {
+		// Synchronize the database.
+		const { alter = true, force = false, drop, match } = {...this.config, ...(config || {})};
+		try {
+			drop && await this.drop(drop);
+		} catch (e) {
+			return Promise.reject(e);
+		}
+	
+		// Synchornize and closing connection.
+		return this.sync({ alter, force, match }).then(() => {
+			(this.config.logging || console.log)(successMsg('', 'database migrated and synchronized'));
+		}).then(() => this.close());
+	}
+
+	static async migrate(config) {
+		// Create database instance.
+		// config should contain the connection paramters and the models.
+		const db = new Sequelize(config);
+		return db.migrate(config);
+	}
 	
   // Helper function to get a row with certain attributes from a model.
 	async get(modelName, params) {
