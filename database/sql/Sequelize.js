@@ -5,6 +5,13 @@ const DatabaseSchema = require('./DatabaseSchema');
 const Url = require('./Url');
 const { formatLogMsg, errMsg } = require('./utilities/formatLogMsg');
 const normalizeName = require('./utilities/normalizeName');
+const {
+  fixAttributes,
+  fixWhere,
+  fixOrder,
+  fixInclude,
+  fixAssociationPropertyKeys
+} = require('./utilities/fix');
 
 // Logging message.
 const _msg = (where, text) => formatLogMsg(where, text, '📀 SQL:', 'white'),
