@@ -5,35 +5,35 @@ const DataTypes = require('./DataTypes');
 const DEFAULT_MODEL_PARAMS = {}; // NOTE: potentially to be changed in the future.
 
 // Class to hold the set off table models in a database.
-class DatabaseTemplate {
+class DatabaseSchema {
   // Constructor.
-  constructor(...databaseTemplates) {
-    this.init (...databaseTemplates);
+  constructor(...databaseSchemas) {
+    this.init (...databaseSchemas);
   }
 
   // Method to initialize a database template.
-  init(...databaseTemplates) {
-    return this.clean().concat(...databaseTemplates);
+  init(...databaseSchemas) {
+    return this.clean().concat(...databaseSchemas);
   }
 
   // Method to add models to the database template.
-  concat(...databaseTemplates) {
-    databaseTemplates = databaseTemplates.flat(Infinity);
+  concat(...databaseSchemas) {
+    databaseSchemas = databaseSchemas.flat(Infinity);
 
     // Get new models.
-    for (let i = 0, l = databaseTemplates.length; i !== l; ++i) {
-      const models = databaseTemplates[i];
+    for (let i = 0, l = databaseSchemas.length; i !== l; ++i) {
+      const models = databaseSchemas[i];
 
       // Already formatted object.
-      if (models instanceof DatabaseTemplate || (
+      if (models instanceof DatabaseSchema || (
         models
         && (typeof models === 'object' || typeof models === 'function')
-        && Array.isArray(models.tables)
+        && Array.isArray(models.models)
         && Array.isArray(models.oneToOneAssociations)
         && Array.isArray(models.oneToManyAssociations)
         && Array.isArray(models.manyToManyAssociations)
       )) {
-        this.tables.push(...models.tables);
+        this.models.push(...models.models);
         this.oneToOneAssociations.push(...models.oneToOneAssociations);
         this.oneToManyAssociations.push(...models.oneToManyAssociations);
         this.manyToManyAssociations.push(...models.manyToManyAssociations);
@@ -41,74 +41,74 @@ class DatabaseTemplate {
       }
 
       // Add models.
-      for (let tableName in models) this.add(tableName, models[tableName]);
+      for (let modelName in models) this.add(modelName, models[modelName]);
     }
     return this;
   }
 
   // Method to add a model to the database template.
-  add(tableName, model) {
+  add(modelName, model) {
     // Association table.
     if (Array.isArray(model)) {
       let [
-        tableName1,
-        tableName2,
+        modelName1,
+        modelName2,
         relationship,
-        throughTableModel
+        throughModel
       ] = model,
-        r = typeof relationship === 'object' // throughTableModel was passed as a many to many relationship model
-          && (throughTableModel = relationship || {})
+        r = typeof relationship === 'object' // throughModel was passed as a many to many relationship model
+          && (throughModel = relationship || {})
           && 'manytomany'
           || (relationship || '').toLowerCase().replace('1', 'one').replace('2', 'to');
 
       ((r === 'hasone' || r === 'onetoone') && this.oneToOneAssociations.push([ // one to one
-        tableName,
-        tableName1,
-        tableName2,
-        throughTableModel || getForeignKey(tableName1)
+        modelName,
+        modelName1,
+        modelName2,
+        throughModel || getForeignKey(modelName1)
       ])) || ((r === 'belongsto' || r === 'belongstoone') && this.oneToOneAssociations.push([ // one to one (reversed)
-        tableName,
-        tableName2,
-        tableName1,
-        throughTableModel || getForeignKey(tableName2)
+        modelName,
+        modelName2,
+        modelName1,
+        throughModel || getForeignKey(modelName2)
       ])) || ((r === 'hasmany' || r === 'onetomany') && this.oneToManyAssociations.push([ // one to many
-        tableName,
-        tableName1,
-        tableName2,
-        throughTableModel || getForeignKey(tableName1)
+        modelName,
+        modelName1,
+        modelName2,
+        throughModel || getForeignKey(modelName1)
       ])) || ((r === 'manytoone' || r === 'belongstomany') && this.oneToManyAssociations.push([ // one to many (reversed)
-        tableName,
-        tableName2,
-        tableName1,
-        throughTableModel || getForeignKey(tableName2)
-      ])) || (this.tables.push(getThroughModel(
-        tableName,
-        tableName1,
-        tableName2,
-        throughTableModel
+        modelName,
+        modelName2,
+        modelName1,
+        throughModel || getForeignKey(modelName2)
+      ])) || (this.models.push(getThroughModel(
+        modelName,
+        modelName1,
+        modelName2,
+        throughModel
       )) && this.manyToManyAssociations.push([ // many to many
-        tableName,
-        tableName1,
-        tableName2
+        modelName,
+        modelName1,
+        modelName2
       ]));
-    } else this.tables.push([tableName, ...normalizeModel(model, DEFAULT_MODEL_PARAMS)]); // Regular table
+    } else this.models.push([modelName, ...normalizeModel(model, DEFAULT_MODEL_PARAMS)]); // Regular table
 
     return this;
   }
 
-  // Method to check typos or missing tables in associaion tables.
-  checkAssociationTables() {
-    const tableNames = new Set();
-    for (let i = 0, t = this.tables, l = t.length; i !== l; ++i) tableNames.add(t[i][0]);
+  // Method to check typos or missing models in associaion models.
+  checkAssociationModels() {
+    const modelNames = new Set();
+    for (let i = 0, t = this.models, l = t.length; i !== l; ++i) modelNames.add(t[i][0]);
 
     // Check one to one association table.
     const check = container => {
       for (let i = 0, t = this[container], l = t.length; i !== l; ++i) {
-        if (!tableNames.has(t[i][1]))
-          throw `ERROR in checkAssociationTables | .${container}: ${t[i][1]} does not exists.`;
+        if (!modelNames.has(t[i][1]))
+          throw `ERROR in checkAssociationModels | .${container}: ${t[i][1]} does not exists.`;
   
-        if (!tableNames.has(t[i][2]))
-          throw `ERROR in checkAssociationTables | .${container}: ${t[i][2]} does not exists.`;
+        if (!modelNames.has(t[i][2]))
+          throw `ERROR in checkAssociationModels | .${container}: ${t[i][2]} does not exists.`;
       }
     }
     check('oneToOneAssociations');
@@ -119,7 +119,7 @@ class DatabaseTemplate {
 
   // Method to clean the database template.
   clean() {
-    this.tables = [];
+    this.models = [];
     this.oneToOneAssociations = [];
     this.oneToManyAssociations = [];
     this.manyToManyAssociations = [];
@@ -148,33 +148,33 @@ class DatabaseTemplate {
 // }
 
 // Helper function to get a foreign key.
-const getForeignKey = (tableName, suffix = 'Id') => (
-  tableName.slice(0, 1).toLowerCase() + tableName.slice(1) + suffix
+const getForeignKey = (modelName, suffix = 'Id') => (
+  modelName.slice(0, 1).toLowerCase() + modelName.slice(1) + suffix
 );
 
 // Helper function to get the default many to many through table.
-const getThroughModel = (tableName, tableName1, tableName2, throughTableModel, suffix = 'Id') => {
-  const m = normalizeModel(throughTableModel || {}, DEFAULT_MODEL_PARAMS);
+const getThroughModel = (modelName, modelName1, modelName2, throughModel, suffix = 'Id') => {
+  const m = normalizeModel(throughModel || {}, DEFAULT_MODEL_PARAMS);
   m[0] = Object.assign({
-    [getForeignKey(tableName1)]: {
+    [getForeignKey(modelName1)]: {
       type: DataTypes.INTEGER,
       references: {
-        model: tableName1,
+        model: modelName1,
         key: suffix
       }
     },
-    [getForeignKey(tableName2)]: {
+    [getForeignKey(modelName2)]: {
       type: DataTypes.INTEGER,
       references: {
-        model: tableName2,
+        model: modelName2,
         key: suffix
       }
     }
   }, m[0]);
-  return [tableName, ...m];
+  return [modelName, ...m];
 }
 
 // Exports.
-module.exports = Object.freeze(Object.defineProperty(DatabaseTemplate, 'DatabaseTemplate', {
-  value: DatabaseTemplate
+module.exports = Object.freeze(Object.defineProperty(DatabaseSchema, 'DatabaseSchema', {
+  value: DatabaseSchema
 }));

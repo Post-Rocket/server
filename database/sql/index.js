@@ -1,5 +1,5 @@
 module.exports = {
-  ...require('./DatabaseTemplate'),
+  ...require('./DatabaseSchema'),
   ...require('./DataTypes'),
   ...require('./migrate'),
   ...require('./utilities/normalizeModel'),
