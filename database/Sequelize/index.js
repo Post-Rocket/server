@@ -1,4 +1,4 @@
-const { Sequelize: _Sequelize, Model, Association } = require('sequelize');
+const { Sequelize: _Sequelize } = require('sequelize');
 const DataTypes = require('./DataTypes');
 const Op = require('./Op');
 const DatabaseSchema = require('./DatabaseSchema');
