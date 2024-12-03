@@ -1,0 +1,9 @@
+{
+  "name": "Address",
+  "fields": {
+    "alias": "text",
+    "street": "text",
+    "city": "text",
+    "state": "text"
+  }
+}

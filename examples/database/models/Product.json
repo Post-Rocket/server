@@ -1,0 +1,8 @@
+{
+  "name": "Product",
+  "fields": {
+    "name": "text",
+    "description": "text",
+    "sku": "text"
+  }
+}

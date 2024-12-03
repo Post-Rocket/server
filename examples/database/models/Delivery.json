@@ -1,0 +1,4 @@
+{
+  "models": ["User", "Address", "Product"],
+  "through": "Delivery"
+}

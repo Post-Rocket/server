@@ -1,0 +1,4 @@
+{
+  "models": ["User", "Address"],
+  "type": "oneToOne"
+}

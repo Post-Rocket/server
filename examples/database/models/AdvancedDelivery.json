@@ -1,0 +1,9 @@
+{
+  "models": ["User", "Address", "Product"],
+  "through": {
+    "name": "AdvancedDelivery",
+    "fields": {
+      "instructions": "text"
+    }
+  }
+}
