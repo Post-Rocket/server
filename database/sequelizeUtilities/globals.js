@@ -1,4 +1,4 @@
-const deepFreeze = require("./deepFreeze");
+const deepFreeze = require("./misc/deepFreeze");
 
 // Default config.
 const CONFIG = deepFreeze({
@@ -26,8 +26,10 @@ const CONFIG = deepFreeze({
 });
 
 const log = (...args) => console.log("⛁ SQL:", ...args);
+const logError = (...args) => console.error(...args);
 
 module.exports = Object.freeze({
   CONFIG,
-  log
+  log,
+	logError
 });

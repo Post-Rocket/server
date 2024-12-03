@@ -1,15 +1,14 @@
-const { Sequelize } = require('sequelize');
-const { CONFIG, log } = require("./globals");
-const deepFreeze = require("./deepFreeze");
+const { Sequelize } = require("sequelize");
+const { CONFIG, log, logError } = require("./globals");
+const deepFreeze = require("./misc/deepFreeze");
 const defineDatabaseSchema = require("./defineDatabaseSchema");
-const drop = require("./drop");
 const migrateDatabaseSchema = require("./migrateDatabaseSchema");
 const Url = require("./Url");
 
 // Helper function to create a sequelized database.
 const createSequelizedDatabase = (connectionString, config, ...args) => {
   // Add default config params.
-  typeof connectionString === 'object' && (
+  typeof connectionString === "object" && (
     config = {...CONFIG, ...(connectionString || {}), ...(config || {})},
     connectionString = config.connectionString || config.connection
   ) || (
@@ -29,9 +28,10 @@ const createSequelizedDatabase = (connectionString, config, ...args) => {
   delete config.port;
 
   // Normalize config.
-  config.logging === true && typeof config.logging !== 'function' && (config.logging = config.log || log);
-  typeof config.logging === 'function' || (delete config.logging);
+  config.logging && typeof config.logging !== "function" && (config.logging = config.log || log);
+  typeof config.logging === "function" || (delete config.logging);
   delete config.log;
+  config.logError && typeof config.logError !== "function" && (config.logError = logError);
   let heartbeat = config.heartbeat || config.heartbeatFrequency || config.heartbeatPingFrequency;
   delete config.heartbeat;
   delete config.heartbeatFrequency;

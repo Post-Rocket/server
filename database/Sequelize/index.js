@@ -352,7 +352,7 @@ class Sequelize extends _Sequelize {
 			...other
 		});
 
-		// In case data was called with findOrCreate.
+		// In case data was called with create = true.
 		if (create) {
 			const created = data[1];
 			data = data[0];

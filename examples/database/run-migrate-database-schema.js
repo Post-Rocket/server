@@ -6,7 +6,7 @@ const { test: connection } = require("../secrets/dev.json");
 const db = createSequelizedDatabase({ connection });
 migrateDatabaseSchema(
   db,
-  { drop: true }, // drop the entire database before migration
+  { drop: true }, // drop the entire database before migration to clean the db
   require("./models/Address.json"),
   require("./models/User.json"),
   require("./models/Product.json"),
