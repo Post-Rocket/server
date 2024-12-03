@@ -1,10 +1,13 @@
 const { Sequelize } = require("sequelize");
 const getDatabaseSchema = require("./getDatabaseSchema");
 
+// Helper function to define models and associations. in a sequelized database.
 const defineDatabaseSchema = (sequelize, ...input) => {
-  if (!(sequelize instanceof Sequelize)) 
-    throw `Invalid database input, should be an instance of Sequelize`;
+  // Check the input database is sequelized.
+  if (!(sequelize instanceof Sequelize))
+    throw Error(`Invalid database input, should be an instance of Sequelize`);
 
+  // Get database schema, i.e. models and associations.
   const { models =[], associations = [] } = getDatabaseSchema(...input), map = new Map;
 
   // Define models.
@@ -18,12 +21,15 @@ const defineDatabaseSchema = (sequelize, ...input) => {
     t = (a = associations[i]).type;
     m = a.models.map(name => map.get(name));
     if (t === "ONE_TO_ONE") {
+      // One-to-one association.
       m[0].hasOne(m[1], a.options);
       m[1].belongsTo(m[0]);
     } else if (t === "ONE_TO_MANY") {
+      // One-to-many association.
       m[0].hasMany(m[1], a.options);
       m[1].belongsTo(m[0]);
     } else {
+      // Many-to-many association.
       t = map.get(a.options.through);
       for (let j = 0, n = m.length; j !== n; ++j) {
         t.belongsTo(m[j]);

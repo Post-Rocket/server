@@ -1,3 +1,4 @@
+const { Sequelize, Model } = require("sequelize");
 const {
   fixInclude,
   fixAssociationPropertyKeys
@@ -5,6 +6,17 @@ const {
 
 // Helper function to create a row or multiple rows.
 const create = async (sequelize, ...args) => {
+  // Normalize input, in case we pass the model directly instead of the db and the model name.
+  sequelize instanceof Model && (
+    args.unshift(sequelize.name),
+    sequelize = sequelize.sequelize
+  );
+
+  // Check the input database is sequelized.
+  if (!(sequelize instanceof Sequelize))
+    throw Error(`Invalid database input, should be an instance of Sequelize`);
+
+  // Normalize input.
   args = args.flat(Infinity);
   const toCreate = {};
   let currentInclude = [], currentModel;
@@ -15,6 +27,9 @@ const create = async (sequelize, ...args) => {
     if (arg) {
       if (typeof arg === "string") { // if we specify the next model name to target.
         (currentModel = toCreate[arg]) || (currentModel = toCreate[arg] = []);
+        currentInclude = [];
+      } else if (arg instanceof Model) { // if we specify the next model name to target.
+        (currentModel = toCreate[arg.name]) || (currentModel = toCreate[arg.name] = []);
         currentInclude = [];
       } else if (typeof arg === "object") {
         let {
@@ -27,6 +42,7 @@ const create = async (sequelize, ...args) => {
           association,
           ...other
         } = arg;
+        modelName instanceof Model && (modelName = modelName.name);
         include && __include__ && include !== __include__ && (other.include = include);
         if (__include__) {
           !Array.isArray(__include__) && (__include__ = [__include__]);

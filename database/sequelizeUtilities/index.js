@@ -11,6 +11,7 @@ module.exports = {
   getDatabaseSchema: require("./getDatabaseSchema"),
   migrate: require("./migrate"),
   migrateDatabaseSchema: require("./migrateDatabaseSchema"),
+  reset: require("./reset"),
   update: require("./update"),
   Op: require("./Op")
 }

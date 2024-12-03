@@ -1,9 +1,9 @@
 const { Sequelize } = require("sequelize");
-const drop = require("./drop");
 const { CONFIG, log } = require("./globals");
 
-// Helper function to migrate, sync and close sequelized database.
+// Helper function to migrate, sync and close a sequelized database.
 const migrate = async (sequelize, options) => {
+  // Check the input database is sequelized.
   if (!(sequelize instanceof Sequelize))
     throw Error(`Invalid database input, should be an instance of Sequelize`);
 
