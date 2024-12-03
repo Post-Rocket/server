@@ -1,10 +1,12 @@
 // To run: node <this-filename>
 const createSequelizedDatabase = require("../../database/sequelizeUtilities/createSequelizedDatabase");
+const migrateDatabaseSchema = require("../../database/sequelizeUtilities/migrateDatabaseSchema");
 const { test: connection } = require("../secrets/dev.json");
 
 const db = createSequelizedDatabase({ connection });
-db.migrateDatabaseSchema(
-  { drop: true },
+migrateDatabaseSchema(
+  db,
+  null,
   require("./models/Address.json"),
   require("./models/User.json"),
   require("./models/Product.json"),
