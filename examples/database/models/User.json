@@ -1,10 +1,10 @@
 {
   "name": "User",
   "fields": {
+    "firstname": "text",
+    "lastname": "text",
     "phoneNumber": "text",
     "email": "text",
-    "verifiedEmail": "bool",
-    "firstname": "text",
-    "lastname": "text"
+    "verifiedEmail": "bool"
   }
 }

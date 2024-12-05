@@ -1,7 +1,7 @@
 const { Op: _Op} = require("sequelize");
 
 // Keep object reference if possible.
-const Op = require("../misc/extendObject")(_Op);
+const Op = require("./misc/extendObject")(_Op);
 
 // Adding few short cuts.
 Op["&"] = Op["&&"] = Op.and;

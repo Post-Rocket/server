@@ -7,7 +7,7 @@ module.exports = {
   defineDatabaseSchema: require("./defineDatabaseSchema"),
   destroy: require("./destroy"),
   drop: require("./drop"),
-  get: require("./get"),
+  find: require("./find"),
   getDatabaseSchema: require("./getDatabaseSchema"),
   migrate: require("./migrate"),
   migrateDatabaseSchema: require("./migrateDatabaseSchema"),

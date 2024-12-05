@@ -6,7 +6,7 @@ const migrateDatabaseSchema = require("./migrateDatabaseSchema");
 const Url = require("./Url");
 
 // Helper function to create a sequelized database.
-const createSequelizedDatabase = (connectionString, config, ...args) => {
+const createSequelizedDatabase = async (connectionString, config, ...args) => {
   // Add default config params.
   typeof connectionString === "object" && (
     config = {...CONFIG, ...(connectionString || {}), ...(config || {})},
@@ -29,10 +29,14 @@ const createSequelizedDatabase = (connectionString, config, ...args) => {
 
   // Normalize config.
   config.logging && typeof config.logging !== "function" && (config.logging = config.log || log);
-  typeof config.logging === "function" || (delete config.logging);
+  typeof config.logging === "function" || (config.logging = false);
   delete config.log;
   config.logError && typeof config.logError !== "function" && (config.logError = logError);
-  let heartbeat = config.heartbeat || config.heartbeatFrequency || config.heartbeatPingFrequency;
+  let {
+    heartbeatPingFrequency,
+    heartbeatFrequency = heartbeatPingFrequency,
+    heartbeat = heartbeatFrequency
+  } = config;
   delete config.heartbeat;
   delete config.heartbeatFrequency;
   delete config.heartbeatPingFrequency;
@@ -50,23 +54,17 @@ const createSequelizedDatabase = (connectionString, config, ...args) => {
   output.config && Object.assign(config, output.config);
   config = deepFreeze(config);
 
-  // Authenticate if needed.
-  doAuthenticate && output.authenticate();
-
   // Thats a heartbeat ping/pong gets sent every 2 minutes to keep the db connection alive.
   // The connection might die after 1 day if no heartbeat is sent.
   // Also specialize close function to drop the heartbeat once the connection is closed.
+  let setIntervalId;
   if (heartbeat > 0) {
-    const setIntervalId = setInterval(
-      async () => await output.query("select 1", { type: "SELECT" }),
-      heartbeat
-    ), close = output.close;
-
     // Overload close.
+    const close = output.close;
     try {
-      output.close = function(...args) {
+      output.close = async function(...args) {
         clearInterval(setIntervalId);
-        return close.apply(output, args);
+        return await close.apply(output, args);
       }
     } catch {}
   }
@@ -108,6 +106,24 @@ const createSequelizedDatabase = (connectionString, config, ...args) => {
       enumerable: true
     });
   } catch {}
+
+  // Authenticate if needed.
+  try {
+    doAuthenticate && (
+      await output.authenticate(),
+      (config.logging || log)("Database authenticated")
+    )
+  } catch (error) {
+    (typeof config.logError === "function" && config.logError || logError)('Unable to connect to the database:', error);
+  }
+
+  // Start heartbeat.
+  heartbeat > 0 && (
+    setIntervalId = setInterval(
+      async () => await output.query("select 1", { type: "SELECT" }),
+      heartbeat
+    )
+  );
 
   return output;
 }

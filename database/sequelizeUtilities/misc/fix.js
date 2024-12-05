@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const Op = require("Op");
+const Op = require("../Op");
 
 // For filtering array with empty data.
 const exists = x => x;
