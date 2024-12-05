@@ -46,7 +46,7 @@ const _find = async (sequelize, modelName, params) => {
     attributes = attribute,
     include,
     limit,
-    plain = true,
+    plain,
     order,
     findOrCreate,
     create = findOrCreate,
@@ -67,12 +67,7 @@ const _find = async (sequelize, modelName, params) => {
   }
 
   // Get data.
-  const fn = create && "findOrCreate"
-    || (countAll && "findAndCountAll")
-    || ((findAll || limit > 1) && "findAll")
-    || "findOne";
-  console.log(model, fn);
-  let data = await model[fn]({
+  const query = {
     where: fixWhere(where),
     attributes: attributes = fixAttributes(attributes, model, addPrimaryKeys),
     include: fixInclude(include, model, sequelize, addPrimaryKeys),
@@ -80,7 +75,14 @@ const _find = async (sequelize, modelName, params) => {
     limit,
     plain,
     ...other
-  });
+  }, fn = create && "findOrCreate"
+    || (countAll && "findAndCountAll")
+    || ((findAll || limit > 1) && "findAll")
+    || "findOne";
+  for (const k in query) {
+    query[k] === undefined && (delete query[k]);
+  }
+  let data = await model[fn](query);
 
   // In case data was called with create = true (i.e findOrCreate).
   if (create) {
@@ -117,6 +119,10 @@ find.all = find.findAll = async (sequelize, modelName, params) => {
   _params.findAll = true;
   return await _find(_sequelize, _modelName, _params);
 }
+
+find.one = find.findOne = async (sequelize, modelName, params) => (
+  await _find(...normalizeInput(sequelize, modelName, params))
+);
 
 find.orCreate = find.findOrCreate = async (sequelize, modelName, params) => {
   const [_sequelize, _modelName, _params] = normalizeInput(sequelize, modelName, params);

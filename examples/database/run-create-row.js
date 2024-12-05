@@ -22,10 +22,12 @@ createSequelizedDatabase({ connection, logging: true })
     verifiedEmail: false
   }, {
     firstname: "John",
-    lastname: "Yo"
+    lastname: "Yo",
+    verifiedEmail: false
   }, {
     firstname: "Bill",
-    lastname: "Murray"
+    lastname: "Murray",
+    verifiedEmail: false
   }),
   await create(db, 'Address', {
     street: "1635 Trailhead dr.",
@@ -38,9 +40,10 @@ createSequelizedDatabase({ connection, logging: true })
     sku: "1234567890",
   }),
   await create(db, 'Delivery', {
-    name: "Some Shit",
-    description: "Some random product",
-    sku: "1234567890",
+    userId: 1,
+    productId: 1,
+    addressId: 1,
+    instructions: "Some random delivery",
   }),
   await db.close()
 ));

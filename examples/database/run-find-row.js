@@ -14,10 +14,11 @@ createSequelizedDatabase({ connection, logging: true })
     require("./models/User_Adress.json"),
     require("./models/Delivery.json")
   ),
-  console.log("Result:", (await find.all(db, 'User', {
+  console.log("\nResult:", (await find.all(db, 'User', {
     where: {
       firstname: "William"
     },
-  })).dataValues),
+    raw: true
+  }))),
   await db.close()
 ));
