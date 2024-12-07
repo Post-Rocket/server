@@ -8,11 +8,7 @@ createSequelizedDatabase({ connection, logging: true })
 .then(async db => (
   defineDatabaseSchema(
     db,
-    require("./models/Address.json"),
-    require("./models/User.json"),
-    require("./models/Product.json"),
-    require("./models/User_Adress.json"),
-    require("./models/Delivery.json")
+    ...require("./models")
   ),
   console.log("\nResult:", (await find.all(db, 'User', {
     where: {

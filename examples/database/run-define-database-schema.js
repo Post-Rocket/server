@@ -1,18 +1,15 @@
 // To run: node <this-filename>
 const createSequelizedDatabase = require("../../database/sequelizeUtilities/createSequelizedDatabase");
 const defineDatabaseSchema = require("../../database/sequelizeUtilities/defineDatabaseSchema");
+const getDatabaseSchema = require("../../database/sequelizeUtilities/getDatabaseSchema");
 const { test: connection } = require("../secrets/dev.json");
 
 createSequelizedDatabase({ connection, logging: true })
 .then(async db => (
   defineDatabaseSchema(
     db,
-    require("./models/Address.json"),
-    require("./models/User.json"),
-    require("./models/Product.json"),
-    require("./models/User_Adress.json"),
-    require("./models/Delivery.json")
+    ...require("./models")
   ),
-  console.log(db.models),
+  console.log(getDatabaseSchema(db).toString()),
   await db.close()
 ));

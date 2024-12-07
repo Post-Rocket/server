@@ -1,6 +1,6 @@
 {
   "name": "Address",
-  "fields": {
+  "attributes": {
     "alias": "text",
     "street": "text",
     "city": "text",

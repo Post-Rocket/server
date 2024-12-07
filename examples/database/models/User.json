@@ -1,6 +1,6 @@
 {
   "name": "User",
-  "fields": {
+  "attributes": {
     "firstname": "text",
     "lastname": "text",
     "phoneNumber": "text",

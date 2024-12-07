@@ -1,6 +1,6 @@
 {
   "name": "Product",
-  "fields": {
+  "attributes": {
     "name": "text",
     "description": "text",
     "sku": "text"

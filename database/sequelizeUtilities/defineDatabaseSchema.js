@@ -12,7 +12,7 @@ const defineDatabaseSchema = (sequelize, ...input) => {
 
   // Define models.
   for (let i = 0, l = models.length, m, n; i !== l; ++i) {
-    m = sequelize.define(n = (m = models[i]).name, m.fields, m.options);
+    m = sequelize.define(n = (m = models[i]).name, m.attributes || m.fields, m.options);
     map.set(n, m);
   }
 
@@ -28,8 +28,20 @@ const defineDatabaseSchema = (sequelize, ...input) => {
       // One-to-many association.
       m[0].hasMany(m[1], a.options);
       m[1].belongsTo(m[0]);
-    } else {
+    } else if (t === "HAS_ONE") {
+      // One-to-one association.
+      m[0].hasOne(m[1], a.options);
+    } else if (t === "HAS_MANY") {
+      // One-to-many association.
+      m[0].hasMany(m[1], a.options);
+    } else if (t === "BELONGS_TO") {
+      // One-to-many association.
+      m[0].belongsTo(m[1], a.options);
+    } else if (t === "BELONGS_TO_MANY") {
       // Many-to-many association.
+      m[0].belongsToMany(m[1], a.options);
+    } else { // MANY_TO_MANY
+      // Default Many-to-many association.
       t = map.get(a.options.through);
       for (let j = 0, n = m.length; j !== n; ++j) {
         t.belongsTo(m[j]);

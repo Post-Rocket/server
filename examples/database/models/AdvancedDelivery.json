@@ -2,7 +2,7 @@
   "models": ["User", "Address", "Product"],
   "through": {
     "name": "AdvancedDelivery",
-    "fields": {
+    "attributes": {
       "instructions": "text"
     }
   }
