@@ -14,6 +14,14 @@ module.exports = {
         isPostalCode: require("../sequelizeUtilities/validators/isPostalCode")
       }
     },
+    type: {
+      type: "text",
+      validate: {
+        is: /^(business|personal)$/i
+      },
+      allowNull: false,
+      defaultValue: "personal"
+    },
     state: "text",
     country: "varchar255",
     // For prompt.
