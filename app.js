@@ -16,5 +16,9 @@ for (let i = 0, l = enpoints.length; i !== l; ++i) {
 }
 
 // Launch server.
-app.listen(PORT);
-console.log(`✅ listen to ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`✅ listen to ${PORT}`);
+});
+
+// Exports.
+module.exports = app;

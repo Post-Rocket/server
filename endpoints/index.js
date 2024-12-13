@@ -1,4 +1,4 @@
 module.exports = require("../io/requireFiles")(
   __dirname, 
-  { blacklist: ["createEndpoint.js"] }
+  { blacklist: ["createEndpoint.js", "index.js"] }
 )
