@@ -13,5 +13,6 @@ module.exports = {
   migrateDatabaseSchema: require("./migrateDatabaseSchema"),
   reset: require("./reset"),
   update: require("./update"),
-  Op: require("./Op")
+  Op: require("./Op"),
+  validators: require("./validators"),
 }
