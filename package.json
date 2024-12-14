@@ -1,8 +1,15 @@
 {
+  "scripts": {
+    "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
+    "clear-all": "rm -rf node_modules/ && npm cache clean --force",
+    "update": "npx npm-check-updates -u; npm update; npm install"
+  },
   "dependencies": {
     "@sequelize/mariadb": "^7.0.0-alpha.43",
     "express": "^4.21.2",
-    "sequelize": "^6.37.5",
-    "serverless-http": "^3.2.0"
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "node-scp": "^0.0.23"
   }
 }
