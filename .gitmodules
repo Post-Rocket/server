@@ -2,5 +2,5 @@
 	path = utilities
 	url = https://github.com/Post-Rocket/utilities
 [submodule "deployement"]
-	path = deployement
+	path = deployment
 	url = https://github.com/aws-samples/aws-codedeploy-github-actions-deployment.git
