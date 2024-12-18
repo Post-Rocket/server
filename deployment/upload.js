@@ -3,7 +3,7 @@ const fs = require("fs");
 const Path = require("path");
 const getParams = require("./getParams");
 
-const deploy = async (input, params, out) => {
+const upload = async (input, params, out) => {
   try {
     // If only one input for everything.
     if (!params) {
@@ -119,6 +119,6 @@ const deploy = async (input, params, out) => {
 }
 
 // Export.
-module.exports = Object.freeze(Object.defineProperty(deploy, "deploy", {
-  value: deploy
+module.exports = Object.freeze(Object.defineProperty(upload, "upload", {
+  value: upload
 }));

@@ -1,4 +1,4 @@
-const deploy = require("./deploy");
+const upload = require("./upload");
 const OUTPUT_PATH = "server",
   PARAMS = "../secrets/dev.json",
   INPUT = [
@@ -10,4 +10,4 @@ const OUTPUT_PATH = "server",
     "./package.json"
   ];
 
-deploy(INPUT, PARAMS, OUTPUT_PATH);
+upload(INPUT, PARAMS, OUTPUT_PATH);
