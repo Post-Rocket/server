@@ -1,4 +1,5 @@
 const fs = require("fs");
+const Path = require("path");
 
 // Helper function to get input parameters.
 const getParams = params => {
@@ -12,10 +13,12 @@ const getParams = params => {
   } = params || {};
 
   try {
-    const c = typeof connection === "string" && require(connection),
+    const c = typeof connection === "string" && require(connection) || connection || {},
     p = c.server || c.ec2 || c.instance || c || {};
     p && (params = p);
   } catch {}
+  params.username || (params.username = params.user);
+  delete params.user;
 
   // Check if we have the necessary info for connection.
   if (!(params.host && params.username && (
@@ -27,10 +30,29 @@ const getParams = params => {
   }
   
   // Grab passkey from a file if needed.
-  try {
-    const pk = typeof privateKey === "string" && fs.readFileSync(privateKey);
-    pk && (params.privateKey = pk);
-  } catch {}
+  let pk;
+  if (typeof params.privateKey === "string") {
+    try {
+      pk = fs.readFileSync(params.privateKey);
+    } catch {}
+    if (!pk) {
+      try {
+        pk = fs.readFileSync(Path.join("../", params.privateKey));
+      } catch {}
+    }
+    if (!pk) {
+      try {
+        pk = fs.readFileSync(Path.resolve(__dirname, "server/", params.privateKey));
+      } catch {}
+    }
+    if (!pk) {
+      try {
+        pk = fs.readFileSync(Path.resolve(__dirname, "server/../", params.privateKey));
+      } catch {}
+    }
+  }
+
+  pk && (params.privateKey = pk);
 
   return params;
 }
