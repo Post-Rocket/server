@@ -1,4 +1,4 @@
-const sendCommand = require("sendCommand");
+const sendCommand = require("./sendCommand");
 
 
 // Helper function to test a connection.
