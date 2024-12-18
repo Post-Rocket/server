@@ -22,6 +22,9 @@ or
     source ~/.bash_profile
     nvm install --lts
 
+To test node:
+
+    node -e "console.log('Running Node.js ' + process.version)"
 
 ## Pushing code from github to ec2
 CodeDeploy: https://docs.aws.amazon.com/codedeploy/index.html
