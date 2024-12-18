@@ -12,7 +12,16 @@ Go to the repo where this module has been installed and type:
 You may need to sudo the commands to get access rights.
 
 ## Installs for ec2
-sudo yum install -y nodejs npm or sudo get-apt install -y nodejs npm
+    sudo yum install -y nodejs npm
+
+or
+
+    sudo get-apt install -y nodejs npm
+
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+    source ~/.bash_profile
+    nvm install --lts
+
 
 ## Pushing code from github to ec2
 CodeDeploy: https://docs.aws.amazon.com/codedeploy/index.html
