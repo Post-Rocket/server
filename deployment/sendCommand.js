@@ -26,14 +26,19 @@ const sendCommand = async (...args) => {
     throw "Missing parameters";
   }
 
+  const log = params.logging === true && (params.log || console.log)
+    || (typeof params.logging === "function" && params.logging)
+    || (typeof params.log === "function" && params.logging === undefined && params.log)
+    || (() => {})
+
   commands = (commands.join("\n") + "\n").replace(/exit/gi, "").replace(/\n+/g, "\n") + "exit\n";
-  console.log("params", params);
-  console.log("commands", commands);
+  log("params", params);
+  log("commands", commands);
 
   // Connect.
   const client = new Client();
   return client.on("ready", () => {
-    console.log("Client :: ready");
+    log("Client :: ready");
 
     // Configure shell.
     client.shell((err, stream) => {
@@ -41,10 +46,10 @@ const sendCommand = async (...args) => {
 
       // Close connection when stream is closed.
       stream.on("close", () => {
-        console.log("Stream :: close");
+        log("Stream :: close");
         client.end();
       }).on("data", (data) => {
-        console.log(`${data}`);
+        log(`${data}`);
       });
 
       // Instal / update node.
