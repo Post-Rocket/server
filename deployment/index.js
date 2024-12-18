@@ -1,5 +1,5 @@
 const deploy = require("./deploy");
-const OUTPUT_PATH = "",
+const OUTPUT_PATH = "server",
   PARAMS = "../secrets/dev.json",
   INPUT = [
     "./database",

@@ -62,14 +62,15 @@ const deploy = async (input, params, out) => {
     const client = await Client(params);
     console.log("🖥️  Connected to server instance.");
 
+    const loaded = [];
     for (let i = 0, l = input.length, f, o; i !== l; ++i) {
       f = input[i];
       Array.isArray(f) && (
         f = f[0],
         o = f[1]
-      );
+      ) || (o = "");
       o || (o = Path.basename(f));
-      out && (o = Path.join(out, f || ""));
+      out && (o = Path.join(out, o || ""));
 
       // Clean directory.
       const d = Path.dirname(o);
@@ -86,21 +87,27 @@ const deploy = async (input, params, out) => {
       } catch {};
 
       // Upload data.
-      console.log(`📁  Loading: ${f}`);
       if (fs.lstatSync(f).isDirectory()) {
+        console.log(`📂  Loading: ${f}`);
         await client.uploadDir(
           f,
           o
           // options?: TransferOptions
         );
       } else {
+        console.log(`📄  Loading: ${f}`);
         await client.uploadFile(
           f,
           o
           // options?: TransferOptions
         );
       }
-      console.log(`✅  Loaded ${o}`);
+      loaded.push(o);
+    }
+
+    console.log("✅  Data loaded");
+    for(let i = 0, l = loaded.length; i !== l; ++i) {
+      console.log(`  ‣  ${loaded[i]}`);
     }
 
     // Close connection.
