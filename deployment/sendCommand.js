@@ -10,8 +10,25 @@ const sendCommand = async (...args) => {
     typeof (a = args[i]) === "string" && commands.push(a)
     || (typeof a === "object" && Object.assign(params, a));
   }
-  params = getParams(params);
-  commands = commands.join("/n");
+
+  try {
+    params = getParams(params);
+  } catch {}
+
+  for (let i = 0, l = commands.length; i !== l; ++i) {
+    try {
+      params = getParams(commands[i]);
+      commands.splice(i, 1);
+      break;
+    } catch {}
+  }
+  if (!Object.keys(params).length) {
+    throw "Missing parameters";
+  }
+
+  commands = (commands.join("\n") + "\n").replace(/exit/gi, "").replace(/\n+/g, "\n") + "exit/n";
+  console.log("params", params);
+  console.log("commands", commands);
 
   // Connect.
   const client = new Client();
@@ -27,7 +44,7 @@ const sendCommand = async (...args) => {
         console.log("Stream :: close");
         client.end();
       }).on("data", (data) => {
-        console.log(data);
+        console.log(`${data}`);
       });
 
       // Instal / update node.

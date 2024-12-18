@@ -1,10 +1,12 @@
 const sendCommand = require("./sendCommand");
 
-
 // Helper function to test a connection.
 // like: testConnection("../secrets/dev.json");
 const updateNodeModules = async params => {
-  return sendCommand(params, "cd server", "npm i");
+  return await sendCommand(params,
+    "cd server",
+    "npm -i"
+  )
 }
 
 // Export.
