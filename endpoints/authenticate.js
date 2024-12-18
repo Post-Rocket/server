@@ -1,5 +1,6 @@
 const createEndpoint = require("./createEndpoint");
 
+// Endpoint.
 const authenticate = createEndpoint("post", "/authenticate", () => {
 
 });

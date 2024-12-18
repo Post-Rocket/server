@@ -5,8 +5,8 @@
     "update": "npx npm-check-updates -u; npm update; npm install"
   },
   "dependencies": {
-    "@sequelize/mariadb": "^7.0.0-alpha.43",
     "express": "^4.21.2",
+    "@sequelize/mariadb": "^7.0.0-alpha.43",
     "sequelize": "^6.37.5"
   },
   "devDependencies": {

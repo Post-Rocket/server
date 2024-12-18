@@ -1,5 +1,4 @@
 // Helper function to create an endpoint.
-
 const createEndpoint = (
   type,
   route,

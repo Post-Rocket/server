@@ -1,6 +1,3 @@
 [submodule "utilities"]
 	path = utilities
 	url = https://github.com/Post-Rocket/utilities
-[submodule "deployment"]
-	path = deployment
-	url = https://github.com/aws-samples/aws-codedeploy-github-actions-deployment.git

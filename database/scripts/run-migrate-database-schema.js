@@ -1,7 +1,7 @@
 // To run: node <this-filename>
 const createSequelizedDatabase = require("../sequelizeUtilities/createSequelizedDatabase");
 const migrateDatabaseSchema = require("../sequelizeUtilities/migrateDatabaseSchema");
-const { postrocket: connection } = require("../../dev.json");
+const { database: connection } = require("../../secrets/dev.json");
 
 createSequelizedDatabase({ connection, logging: true }).then(db => (
   migrateDatabaseSchema(
