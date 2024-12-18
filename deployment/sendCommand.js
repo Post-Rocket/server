@@ -26,7 +26,7 @@ const sendCommand = async (...args) => {
     throw "Missing parameters";
   }
 
-  commands = (commands.join("\n") + "\n").replace(/exit/gi, "").replace(/\n+/g, "\n") + "exit/n";
+  commands = (commands.join("\n") + "\n").replace(/exit/gi, "").replace(/\n+/g, "\n") + "exit\n";
   console.log("params", params);
   console.log("commands", commands);
 

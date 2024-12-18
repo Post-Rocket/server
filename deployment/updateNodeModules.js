@@ -5,7 +5,7 @@ const sendCommand = require("./sendCommand");
 const updateNodeModules = async params => {
   return await sendCommand(params,
     "cd server",
-    "npm -i"
+    "npm install"
   )
 }
 
