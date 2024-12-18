@@ -1,4 +1,6 @@
 const upload = require("./upload");
+const updateNodeModules = require("./updateNodeModules");
+
 const OUTPUT_PATH = "server",
   PARAMS = "../secrets/dev.json",
   INPUT = [
@@ -10,4 +12,8 @@ const OUTPUT_PATH = "server",
     "./package.json"
   ];
 
-upload(INPUT, PARAMS, OUTPUT_PATH);
+// Deploy.
+(async () => {
+  await upload(INPUT, PARAMS, OUTPUT_PATH);
+  await updateNodeModules(PARAMS);
+})();

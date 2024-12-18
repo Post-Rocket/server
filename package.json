@@ -5,9 +5,10 @@
     "update": "npx npm-check-updates -u; npm update; npm install"
   },
   "dependencies": {
-    "express": "^4.21.2",
     "@sequelize/mariadb": "^7.0.0-alpha.43",
-    "sequelize": "^6.37.5"
+    "express": "^4.21.2",
+    "sequelize": "^6.37.5",
+    "ssh2": "^1.16.0"
   },
   "devDependencies": {
     "node-scp": "^0.0.23"

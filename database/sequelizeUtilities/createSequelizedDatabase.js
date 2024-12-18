@@ -22,10 +22,12 @@ const createSequelizedDatabase = async (connectionString, config, ...args) => {
   delete config.connectionString;
   delete config.dialect;
   delete config.user;
+  delete config.username;
   delete config.password;
   delete config.host;
   delete config.database;
   delete config.port;
+  delete config.path;
 
   // Normalize config.
   config.logging && typeof config.logging !== "function" && (config.logging = config.log || log);
