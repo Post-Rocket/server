@@ -61,6 +61,10 @@ const upload = async (input, params, out) => {
     // Connect.
     const client = await Client(params);
     console.log("🖥️  Connected to server instance.");
+    console.log("🖥️  To be uploaded:");
+    for(let i = 0, l = input.length; i !== l; ++i) {
+      console.log(`  ‣  ${input[i]}`);
+    }
 
     const loaded = [];
     for (let i = 0, l = input.length, f, o; i !== l; ++i) {
@@ -71,20 +75,6 @@ const upload = async (input, params, out) => {
       ) || (o = "");
       o || (o = Path.basename(f));
       out && (o = Path.join(out, o || ""));
-
-      // Clean directory.
-      const d = Path.dirname(o);
-      try {
-        await client.rmdir(d);
-      } catch {};
-
-      // Try to create directory.
-      try {
-        await client.mkdir(
-          d
-          // attributes?: InputAttributes
-        );
-      } catch {};
 
       // Upload data.
       if (fs.lstatSync(f).isDirectory()) {
