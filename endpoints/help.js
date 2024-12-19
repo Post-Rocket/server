@@ -29,7 +29,7 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
         <b>Method:</b> ${method.toUpperCase()}
       </li>
       <li>
-        <b>Route:</b> <a href="${route}" target="_blank" title="Route for ${name}">${route}</a>
+        <b>Route:</b> ${method.toLowerCase() === "get" && `<a href="${route}" target="_blank" title="Route for ${name}">${route}</a>` || route}
       </li>
       <li>
         <b>Description:</b> ${description || "none"}

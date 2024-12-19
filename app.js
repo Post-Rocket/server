@@ -2,7 +2,7 @@ const express = require("express");
 const expressListEndpoints = require('express-list-endpoints');
 const endpoints = require("./endpoints") || [];
 const app = express();
-const PORT = 80;
+const PORT = 3000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
