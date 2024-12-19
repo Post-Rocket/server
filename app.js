@@ -1,5 +1,4 @@
 const express = require("express");
-const expressListEndpoints = require('express-list-endpoints');
 const endpoints = require("./endpoints") || [];
 const app = express();
 const PORT = 3000;
@@ -18,10 +17,6 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
   console.log(`🖥️ Initializing ${method.toUpperCase()} ${name}`);
   app[method](route, process);
 }
-
-// List all endpoints
-// const list = expressListEndpoints(app);
-// console.log(list);
 
 // Launch server.
 app.listen(PORT, () => {
