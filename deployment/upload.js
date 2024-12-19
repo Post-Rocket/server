@@ -66,6 +66,14 @@ const upload = async (input, params, out) => {
       console.log(`  ‣  ${input[i]}`);
     }
 
+    // Try to create output folder.
+    try {
+      out && await client.mkdir(
+        out
+        // attributes: InputAttributes
+      );
+    } catch {}
+
     const loaded = [];
     for (let i = 0, l = input.length, f, o; i !== l; ++i) {
       f = input[i];

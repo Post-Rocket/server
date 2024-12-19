@@ -1,5 +1,8 @@
 # Server
 
+Tutorial:
+https://medium.com/@shreshthbansal2505/hosting-a-node-js-and-express-js-app-on-aws-ec2-a-step-by-step-guide-d2d345b74a1f
+
 ## Update submodules
 
 Go to the repo where this module has been installed and type:
