@@ -1,10 +1,5 @@
-const Path = require("path");
 const createEndpoint = require("./createEndpoint");
-const dir = Path.dirname(__filename);
-const endpoints = (require("../io/requireFiles")(
-  dir, 
-  { blacklist: ["createEndpoint.js", "index.js", "help.js"], relative: true }
-) || []).sort((a, b) => a.route < b.route && -1 || 1);
+const endpoints = require("./getEndpoints")("help.js");
 
 // Create html.
 const description = "List of all endpoints";
