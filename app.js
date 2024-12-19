@@ -11,10 +11,9 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
   const {
     method,
     route,
-    process,
-    name
+    process
   } = endpoints[i];
-  console.log(`🖥️ Initializing ${method.toUpperCase()} ${name}`);
+  console.log(`🖥️ Initializing ${method.toUpperCase()} ${route}`);
   app[method](route, process);
 }
 
