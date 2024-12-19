@@ -19,16 +19,19 @@ const getFilenames = (
   modifiedTime,
   blacklist = ["node_modules"],
   extensions = ".js",
+  relative,
   _files
 ) => {
   // Normalize input.
   dir && typeof dir === "object" && (
-    dir = dir.dir,
     modifiedTime = dir.modifiedTime,
     blacklist = dir.blacklist,
     extensions = dir.extensions,
-    _files = dir.files || dir._files
+    relative = dir.relative,
+    _files = dir.files || dir._files,
+    dir = dir.dir
   );
+  relative === true && (relative = __dirname);
   _files || (_files = []);
   blacklist = makeSet(blacklist);
   extensions = makeSet(extensions);
@@ -51,6 +54,14 @@ const getFilenames = (
       || (extensions.size && !extensions.has(Path.extname(filename).toLowerCase()))
       || ((!modifiedTime || (Date.now() - fileInfo.mtimeMs < modifiedTime)) && _files.push(filePath))
   }
+
+  relative && (_files = _files.map(
+    file => (
+      file = Path.relative(relative, file),
+      file.startsWith("../") && file || ("./" + file)
+    )
+  ));
+
   return _files;
 }
 

@@ -1,10 +1,14 @@
 const express = require("express");
-const endpoints = require("../endpoints") || [];
+const expressListEndpoints = require('express-list-endpoints');
+const endpoints = require("./endpoints") || [];
 const app = express();
 const PORT = 3000;
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 // Create endpoints.
-for (let i = 0, l = enpoints.length; i !== l; ++i) {
+for (let i = 0, l = endpoints.length; i !== l; ++i) {
   const {
     method,
     route,
@@ -14,6 +18,10 @@ for (let i = 0, l = enpoints.length; i !== l; ++i) {
   console.log(`🖥️ Initializing ${method.toUpperCase()} ${name}`);
   app[method](route, process);
 }
+
+// List all endpoints
+// const list = expressListEndpoints(app);
+// console.log(list);
 
 // Launch server.
 app.listen(PORT, () => {

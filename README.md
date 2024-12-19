@@ -26,6 +26,18 @@ To test node:
 
     node -e "console.log('Running Node.js ' + process.version)"
 
+Install process management:
+
+    npm install -g pm2
+
+then to start the server:
+    
+    pm2 start index.js
+
+to monitor the server:
+
+    pm2 status
+
 ## Pushing code from github to ec2
 CodeDeploy: https://docs.aws.amazon.com/codedeploy/index.html
 Tutorial: https://docs.aws.amazon.com/codedeploy/latest/userguide/tutorials-github.html

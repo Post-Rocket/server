@@ -1,4 +1,6 @@
+const Path = require("path");
+const dir = Path.dirname(__filename);
 module.exports = require("../io/requireFiles")(
-  __dirname, 
-  { blacklist: ["createEndpoint.js", "index.js"] }
-)
+  dir, 
+  { blacklist: ["createEndpoint.js", "index.js"], relative: true }
+);
