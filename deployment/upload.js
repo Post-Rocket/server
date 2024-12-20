@@ -57,6 +57,7 @@ const upload = async (input, params, out) => {
     }
 
     Array.isArray(input) || (input = [input]);
+    input = input.flat(Infinity).filter(x => x).map(x => `${x}`);
     
     // Connect.
     const client = await Client(params);

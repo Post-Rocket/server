@@ -17,7 +17,7 @@ const makeSet = input => {
 const getFilenames = (
   dir,
   modifiedTime,
-  blacklist = ["node_modules"],
+  blacklist = ["node_modules", "secrets"],
   extensions = ".js",
   relative,
   _files
