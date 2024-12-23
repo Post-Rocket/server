@@ -1,3 +1,4 @@
+const clear = require("../clear");
 const upload = require("../upload");
 const updateNodeModules = require("../updateNodeModules");
 const {
@@ -8,6 +9,7 @@ const {
 
 // Deploy.
 (async () => {
+  await clear();
   await upload(INPUT, PARAMS, OUTPUT_PATH);
   await updateNodeModules(PARAMS);
 })();
