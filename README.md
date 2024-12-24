@@ -1,6 +1,6 @@
 # Server
 
-(Github repo)[https://github.com/Post-Rocket/server]
+[https://github.com/Post-Rocket/server](Github repo)
 
 Tutorial:
 https://medium.com/@shreshthbansal2505/hosting-a-node-js-and-express-js-app-on-aws-ec2-a-step-by-step-guide-d2d345b74a1f
