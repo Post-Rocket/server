@@ -44,5 +44,8 @@ to monitor the server:
     pm2 status
 
 ## Pushing code from github to ec2
-CodeDeploy: https://docs.aws.amazon.com/codedeploy/index.html
-Tutorial: https://docs.aws.amazon.com/codedeploy/latest/userguide/tutorials-github.html
+
+Tutorials:
+
+- https://docs.aws.amazon.com/codedeploy/latest/userguide/tutorials-github.html
+- https://docs.aws.amazon.com/codedeploy/index.html
