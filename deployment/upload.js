@@ -3,7 +3,8 @@ const fs = require("fs");
 const Path = require("path");
 const getParams = require("./getParams");
 
-const upload = async (input, params, out) => {
+// Helper function to upload content to server.
+const upload = async (input, params, out) => new Promise(async function (resolve, reject) {
   try {
     // If only one input for everything.
     if (!params) {
@@ -53,7 +54,9 @@ const upload = async (input, params, out) => {
 
     // Check if we have the necessary info for connection.
     if (!input) {
-      throw Error(`Missing input directory or file(s)`);
+      const error = Error(`Missing input directory or file(s)`);
+      if (reject) reject(error);
+      else throw error;
     }
 
     Array.isArray(input) || (input = [input]);
@@ -110,12 +113,14 @@ const upload = async (input, params, out) => {
     }
 
     // Close connection.
-    client.close();
+    await client.close();
     console.log("✅  Connection closed");
-  } catch (e) {
-    console.error(e);
+    resolve && resolve();
+  } catch (error) {
+    if (reject) reject (error);
+    else throw error;
   }
-}
+});
 
 // Export.
 module.exports = Object.freeze(Object.defineProperty(upload, "upload", {

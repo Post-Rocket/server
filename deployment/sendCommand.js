@@ -3,7 +3,7 @@ const getParams = require("./getParams");
 
 // Helper function to test a connection.
 // like: testConnection("../secrets/dev.json");
-const sendCommand = async (...args) => {
+const sendCommand = async (...args) => new Promise(function (resolve, reject) {
   args = args.flat(Infinity);
   let commands = [], params = {};
   for (let i = 0, l = args.length, a; i !== l; ++i) {
@@ -22,8 +22,11 @@ const sendCommand = async (...args) => {
       break;
     } catch {}
   }
+
   if (!Object.keys(params).length) {
-    throw "Missing parameters";
+    const error = Error("Missing parameters");
+    if (reject) reject(error);
+    else throw error;
   }
 
   const log = params.logging === true && (params.log || console.log)
@@ -37,26 +40,32 @@ const sendCommand = async (...args) => {
 
   // Connect.
   const client = new Client();
-  return client.on("ready", () => {
+  client.on("ready", () => {
     log("Client :: ready");
 
     // Configure shell.
-    client.shell((err, stream) => {
-      if (err) throw err;
+    client.shell((error, stream) => {
+      if (error) {
+        if (reject) reject(error);
+        else throw error;
+      }
 
       // Close connection when stream is closed.
-      stream.on("close", () => {
-        log("Stream :: close");
-        client.end();
-      }).on("data", (data) => {
+      let d;
+      stream.on("data", data => {
         log(`${data}`);
+        d = data;
+      }).on("close", async () => {
+        log("Stream :: close");
+        await client.end();
+        resolve && resolve(d);
       });
 
-      // Instal / update node.
+      // Done.
       stream.end(commands);
     });
   }).connect(params);
-}
+});
 
 // Export.
 module.exports = Object.freeze(Object.defineProperty(sendCommand, "sendCommand", {

@@ -1,7 +1,7 @@
 const express = require("express");
 const endpoints = require("./endpoints") || [];
 const app = express();
-const PORT = 3000;
+const PORT = 443;
 
 // Middleware to parse JSON bodies
 app.use(express.json());

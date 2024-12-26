@@ -1,15 +1,15 @@
-const clear = require("../clear");
-const upload = require("../upload");
-const updateNodeModules = require("../updateNodeModules");
+const deploy = require("../deploy");
 const {
-  OUTPUT_PATH,
+  INPUT,
   PARAMS,
-  INPUT
+  OUTPUT_PATH,
 } = require("../globals");
 
 // Deploy.
-(async () => {
-  await clear();
-  await upload(INPUT, PARAMS, OUTPUT_PATH);
-  await updateNodeModules(PARAMS);
-})();
+deploy(INPUT, PARAMS, OUTPUT_PATH)
+.then(() => {
+  console.log("✅ Deployment done")
+})
+.catch(error => {
+  console.error("⛔️ ", error);
+});
