@@ -17,7 +17,7 @@ const createHealthCheckEndpoints = route => {
  // Endpoint.
   return [
     createEndpoint("get", route || "/healthcheck", (req, res) => {
-      res.send(GET_CONTENT);
+      res.status(200).send(GET_CONTENT);
     }, "healthcheck", "Healthcheck GET endpoint"),
     createEndpoint("post", route || "/healthcheck", (req, res) => {
       res.status(200).json(POST_CONTENT);
