@@ -18,9 +18,11 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
 }
 
 // Launch server.
-app.listen(PORT, () => {
+server = app.listen(PORT, () => {
   console.log(`✅ listen to ${PORT}`);
 });
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 80000;
 
 // Exports.
 module.exports = app;

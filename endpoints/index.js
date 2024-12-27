@@ -9,3 +9,5 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
 
 hasRoot || endpoints.unshift(require("./createHelpEndpoint")("/", "/"));
 hasHelp || endpoints.push(require("./createHelpEndpoint")("/help", "/help"));
+
+endpoints.push(...require("./createHealthCheckEndpoints")("/healthcheck"));
