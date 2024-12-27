@@ -4,7 +4,17 @@ const dir = Path.dirname(__filename);
 
 const getEndpoints = (...blacklist) => (requireFiles(
   dir, 
-  { blacklist: ["createEndpoint.js", "getEndpoints.js", "createHelpEndpoint.js", "index.js", ...blacklist.flat(Infinity)], relative: true }
+  { 
+    blacklist: [
+      "createEndpoint.js",
+      "getEndpoints.js",
+      "createHelpEndpoint.js",
+      "createHealthCheckEndpoints.js",
+      "index.js",
+      ...blacklist.flat(Infinity)
+    ],
+    relative: true
+  }
 ) || []).flat(Infinity).sort(
   (a, b) => (
     a.route < b.route && -1 ||
