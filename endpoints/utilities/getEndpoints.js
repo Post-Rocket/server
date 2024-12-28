@@ -1,15 +1,12 @@
 const Path = require("path");
-const requireFiles = require("../io/requireFiles")
+const requireFiles = require("../../io/requireFiles");
 const dir = Path.dirname(__filename);
 
 const getEndpoints = (...blacklist) => (requireFiles(
   dir, 
   { 
     blacklist: [
-      "createEndpoint.js",
-      "getEndpoints.js",
-      "createHelpEndpoint.js",
-      "createHealthCheckEndpoints.js",
+      "utilities",
       "index.js",
       ...blacklist.flat(Infinity)
     ],

@@ -13,6 +13,7 @@ POST_CONTENT = {
   msg: "Healtcheck succeeded"
 };
 
+// GET and POST dummy endpoints, to make sure the EC2 is still running.
 const createHealthCheckEndpoints = route => {
  // Endpoint.
   return [
