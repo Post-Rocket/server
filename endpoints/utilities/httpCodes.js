@@ -282,6 +282,7 @@ const codes = [
     305,
     "Since HTTP/1.1",
     "Defined in a previous version of the HTTP specification to indicate that a requested response must be accessed by a proxy. It has been deprecated due to security concerns regarding in-band configuration of a proxy.",
+    "",
     true
   ),
   createCode(
@@ -401,9 +402,13 @@ const codes = [
     "RFC 2324, RFC 7168"
   ),
   createCode(
-    "",
+    "Page Expired",
     419,
-    ""
+    "Used by the Laravel Framework when a CSRF Token is missing or expired.",
+    "",
+    "",
+    false,
+    "Laravel Framework"
   ),
   createCode(
     "Method Failure",
@@ -411,7 +416,8 @@ const codes = [
     "A deprecated response status proposed during the development of WebDAV. Used by the Spring Framework when a method has failed. Returned by version 1 of the Twitter Search and Trends API when the client is being rate limited; versions 1.1 and later use the 429 Too Many Requests response code instead.",
     "WebDAV",
     "Enhance Your Calm",
-    true
+    true,
+    "Spring Framework"
   ),
   createCode(
     "Misdirected Request",
@@ -527,7 +533,7 @@ const codes = [
     "AWS Elastic Load Balancing"
   ),
   createCode(
-    "",
+    "IP Address Overload",
     463,
     "The load balancer received an X-Forwarded-For request header with more than 30 IP addresses.",
     "",

@@ -1,6 +1,6 @@
 const Path = require("path");
 const requireFiles = require("../../io/requireFiles");
-const dir = Path.dirname(__filename);
+const dir = Path.dirname(__dirname);
 
 const getEndpoints = (...blacklist) => (requireFiles(
   dir, 

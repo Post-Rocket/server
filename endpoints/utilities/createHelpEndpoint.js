@@ -18,7 +18,7 @@ const createHelpEndpoint = (route, ...blacklist) => {
   `;
 
   for (let i = 0, l = endpoints.length; i !== l; ++i) {
-    const {name, method, route, description } = endpoints[i];
+    const {name, method = "GET", route, description } = endpoints[i];
     html += `
       <hr/>
       <h2>${name}</h2>

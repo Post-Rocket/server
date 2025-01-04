@@ -52,7 +52,8 @@ const getFilenames = (
     blacklist.has(filename)
       || (fileInfo.isDirectory() && getFilenames(filePath, modifiedTime, blacklist, extensions, _files))
       || (extensions.size && !extensions.has(Path.extname(filename).toLowerCase()))
-      || ((!modifiedTime || (Date.now() - fileInfo.mtimeMs < modifiedTime)) && _files.push(filePath))
+      || (modifiedTime && (Date.now() - fileInfo.mtimeMs >= modifiedTime)) 
+      || _files.push(filePath);
   }
 
   relative && (_files = _files.map(
