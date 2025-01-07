@@ -1,3 +1,13 @@
+/**
+ * HTTP Codes
+ * ----------
+ * 
+ * Examples:
+ * const { statuses: { OK } } = require("<path to>/httpCodes"); // OK = 200
+ * const { OK } = require("<path to>/httpCodes"); // OK = { ..., name: "Ok", value: 200, ... }
+ * const { list } = require("<path to>/httpCodes"); // list = [..., { ..., name: "Ok", value: 200, ... }, ...]
+ */ 
+
 // Create code group.
 const createCodeGroup = (
   name,
@@ -829,6 +839,11 @@ httpCodes.get = keyOrValue => (
   || (typeof keyOrValue === "number") && httpCodes[keyOrValue]
   || null
 );
+
+const statuses = httpCodes.statuses = {};
+for (const k in httpCodes) {
+  statuses[k] = httpCodes[k].value;
+}
 
 module.exports = Object.freeze(Object.defineProperty(httpCodes, "httpCodes", {
   value: httpCodes
