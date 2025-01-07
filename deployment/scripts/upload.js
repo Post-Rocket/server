@@ -8,7 +8,7 @@ const {
 // Upload project.
 upload(INPUT, PARAMS, OUTPUT_PATH)
 .then(() => {
-  console.log("✅ Upload done")
+  console.log("✅  Upload done")
 })
 .catch(error => {
   console.error("⛔️ ", error);
