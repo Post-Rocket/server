@@ -13,6 +13,7 @@ for (let i = 0, l = endpoints.length; i !== l; ++i) {
     route,
     process
   } = endpoints[i];
+  if (!method) throw Error(`⛔️ Empty method for ${JSON.stringify(endpoints[i] || {})}`);
   console.log(`🖥️ Initializing ${method.toUpperCase()} ${route}`);
   app[method](route, process);
 }
