@@ -491,9 +491,18 @@ const codes = [
     "RFC 6585"
   ),
   createCode(
+    "Offline",
+    433,
+    "No internet connection on the client side",
+    "",
+    "",
+    false,
+    "Custom"
+  ),
+  createCode(
     "Login Time-out",
     440,
-    "",
+    "Login time-out",
     "",
     "",
     false,

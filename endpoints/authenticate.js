@@ -1,5 +1,5 @@
 const createEndpoint = require("./utilities/createEndpoint");
-const { statuses: { OK } } = require("./utilities/httpCodes");
+const { statuses: { OK, BAD_REQUEST } } = require("./utilities/httpCodes");
 
 // Endpoint.
 const authenticate = createEndpoint("post", "/authenticate", (req, res) => {
@@ -8,14 +8,24 @@ const authenticate = createEndpoint("post", "/authenticate", (req, res) => {
   try {
     data = JSON.parse(data);
   } catch (error) {
-    res.status(OK).json({ message: 'Data received successfully' });
+    res.status(BAD_REQUEST).json({ error });
   }
 
   // Do something with the data (e.g., save to a database)
-  console.log('Received data:', data);
+  console.log("Received data:", data);
 
-  // Send a response
-  res.status(OK).json({ message: 'Data received successfully' });
+  if (data.verify) {
+    // Verify token.
+
+    // Token verified.
+    res.status(OK).json({
+      message: "Data received successfully",
+      verified: true
+    });
+  } else {
+    // Send verification code.
+    res.status(OK).json({ message: `Verification code sent` });
+  }
 });
 
 // Export.
