@@ -6,6 +6,7 @@ const getEndpoints = (...blacklist) => (requireFiles(
   dir, 
   { 
     blacklist: [
+      "middlewares",
       "utilities",
       "index.js",
       ...blacklist.flat(Infinity)
